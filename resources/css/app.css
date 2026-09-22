@@ -1,0 +1,133 @@
+@import 'tailwindcss';
+
+@source '../views';
+
+@theme {
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Instrument Sans', 'Inter', ui-sans-serif, sans-serif;
+    --font-mono: Menlo, 'SF Mono', ui-monospace, monospace;
+
+    /* Astral design tokens */
+    --color-bg: rgb(5 7 13);
+    --color-panel: rgb(10 13 21);
+    --color-panel-2: rgb(12 16 26);
+    --color-ink: rgb(236 237 238);
+    --color-ink-weak: rgb(239 247 255 / 0.62);
+    --color-ink-weaker: rgb(120 127 133);
+    --color-line: rgb(224 243 255 / 0.18);
+    --color-line-soft: rgb(226 240 253 / 0.08);
+    --color-blue: rgb(0 106 255);
+    --color-blue-soft: rgb(140 187 255);
+    --color-amber: rgb(238 157 43);
+    --color-green: rgb(41 163 131);
+    --color-red: rgb(229 70 102);
+
+    /* Inbox lanes */
+    --color-lane-general: rgb(41 163 131);
+    --color-lane-billing: rgb(238 157 43);
+    --color-lane-technical: rgb(140 187 255);
+}
+
+@layer base {
+    html {
+        color-scheme: dark;
+    }
+
+    body {
+        @apply bg-bg font-sans text-ink antialiased;
+    }
+
+    button,
+    [role='button'] {
+        cursor: pointer;
+    }
+
+    button:disabled {
+        cursor: progress;
+    }
+}
+
+/* Ring borders (the design uses box-shadow rings, never CSS borders) */
+@utility ring-line {
+    box-shadow: 0 0 0 1px var(--color-line);
+}
+
+@utility ring-line-soft {
+    box-shadow: 0 0 0 1px var(--color-line-soft);
+}
+
+@utility field {
+    @apply flex h-[68px] items-center gap-3.5 rounded-lg bg-[rgb(214_251_252/0.05)] px-4 ring-line transition-[box-shadow,background] duration-150;
+}
+
+@utility field-hover {
+    background: rgb(0 106 255 / 0.1);
+    box-shadow:
+        0 0 0 1px rgb(0 112 254 / 0.7),
+        0 0 22px rgb(0 106 255 / 0.3);
+}
+
+@utility eyebrow {
+    @apply font-mono text-[13px] tracking-[0.2em] text-amber;
+}
+
+@utility label-caps {
+    @apply text-[11px] font-semibold tracking-[0.14em] text-ink-weaker uppercase;
+}
+
+@utility display-gradient {
+    background: linear-gradient(180deg, rgb(255 255 255) 30%, rgb(140 187 255) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+@keyframes orbit {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rim {
+    0%,
+    100% {
+        opacity: 0.85;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes dot-pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.35;
+    }
+    70% {
+        transform: scale(2.4);
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.animate-orbit {
+    animation: orbit var(--orbit-duration, 60s) linear infinite;
+}
+
+.animate-rim {
+    animation: rim 6s ease-in-out infinite;
+}
+
+.animate-dot-pulse {
+    animation: dot-pulse 1.6s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .animate-orbit,
+    .animate-rim,
+    .animate-dot-pulse {
+        animation: none;
+    }
+}
