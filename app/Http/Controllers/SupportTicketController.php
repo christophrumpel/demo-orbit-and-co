@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 use Laravel\Ai\Classification;
+use Laravel\Ai\Classification\Boolean;
 use Laravel\Ai\Classification\Choice;
 
 class SupportTicketController extends Controller
@@ -27,6 +28,7 @@ class SupportTicketController extends Controller
                     'technical' => 'Bugs, errors, login problems, things not working',
                     'general' => 'Everything else: questions, feedback, small talk',
                 ]),
+                'urgent' => new Boolean('Does the customer need help right now?'),
             ])
             ->classify();
 
@@ -34,6 +36,7 @@ class SupportTicketController extends Controller
             ...$request->validated(),
             'category' => TicketCategory::from($answers->answer('department')->choice),
             'confidence' => $answers->answer('department')->confidence,
+            'urgent' => $answers->answer('urgent')->isTrue(),
         ]);
 
         return back()->with('status', 'Ticket sent. Our crew will get back to you shortly.');

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DraftReplyController;
 use App\Http\Controllers\InboxController;
 use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\SupportTicketController;
@@ -13,3 +14,4 @@ Route::post('/support', [SupportTicketController::class, 'store'])->name('suppor
 
 Route::get('/inbox/{ticket?}', [InboxController::class, 'index'])->name('inbox');
 Route::post('/inbox/{ticket}/reply', ReplyController::class)->name('inbox.reply');
+Route::post('/inbox/{ticket}/draft', DraftReplyController::class)->name('inbox.draft');
