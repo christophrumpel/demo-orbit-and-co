@@ -4,12 +4,16 @@ namespace App\Ai\Tools;
 
 use App\Models\Ticket;
 use Illuminate\Contracts\JsonSchema\JsonSchema;
+use Laravel\Ai\Concerns\InteractsWithApprovals;
+use Laravel\Ai\Contracts\Approvable;
 use Laravel\Ai\Contracts\Tool;
 use Laravel\Ai\Tools\Request;
 use Stringable;
 
-class RefundBooking implements Tool
+class RefundBooking implements Approvable, Tool
 {
+    use InteractsWithApprovals;
+
     public function __construct(protected Ticket $ticket) {}
 
     /**
